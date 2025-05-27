@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+    <main>
+  	<div class="py-5">
+    <h2 class="mb-4">🛒 Giỏ hàng của bạn</h2>
+
+    <div class="cart-wrapper row">
+      <!-- Danh sách sản phẩm -->
+      <div class="cart-items col-lg-8 col-md-12 m-1" style="box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+        <div class="cart-item d-flex align-items-start shadow-sm p-3 mb-3 rounded bg-white" ng-repeat="item in cart">
+          <img ng-src="/images/{{item.image}}" alt="Ảnh sản phẩm" class="img-thumbnail me-3" style="width: 100px; height: auto; object-fit: cover;">
+
+          <div class="item-details w-100">
+            <div class="d-flex justify-content-between">
+              <h5 class="fw-bold mb-1">{{item.productName}}</h5>
+              <button class="btn btn-outline-danger btn-sm" ng-click="removeFromCart(item.productId, item.sizeId)">
+                <i class="bi bi-trash"></i> Xóa
+              </button>
+            </div>
+           <h5><small>Size: {{item.sizeName}}</small></h5>
+            <p class="text-muted mb-2">Mã: {{item.productId}}</p>
+            <div class="qty-price d-flex justify-content-between align-items-center mt-2">
+              <span class="text-secondary">Số lượng: <strong>{{item.quantity}}</strong></span>
+              <span class="price text-primary fw-bold">{{item.price * item.quantity | number:0}} VNĐ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tóm tắt đơn hàng -->
+      <div class="cart-summary col-lg-4 col-md-12 bg-light p-4 rounded shadow-sm m-1" style="position: sticky;top: 80px;
+     	 max-height: calc(100vh - 100px); overflow-y: auto; padding-right: 10px; /* tránh tràn */">
+        <h4 class="mb-4">Tóm tắt đơn hàng</h4>
+        <div class="delivery-option mb-3">
+        </div>
+        <div class="totals border-top pt-3">
+          <p class="mb-2">Tạm tính: <span class="float-end text-dark fw-semibold">{{ getTotal() | number:0 }} VNĐ</span></p>
+          <p class="mb-2">Phí giao hàng: <span class="float-end">Miễn phí</span></p>
+          <h5 class="mt-3">Tổng cộng: <span class="float-end text-danger fw-bold">{{ getTotal() | number:0 }} VNĐ</span></h5>
+        </div>
+        <a th:href="@{/checkout}"><button class="btn btn-primary w-100 mt-4 py-2">Thanh toán</button></a>
+        <p class="note mt-3 text-muted small text-center">
+          Trang này được bảo vệ bởi reCAPTCHA<br>
+          <a href="#">Chính sách bảo mật</a> và <a href="#">Điều khoản dịch vụ</a> của Google áp dụng.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

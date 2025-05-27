@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+	<main>
+	<br>
+		<div class="login-container m-auto mb-5">
+		    <div class="form-section">
+		      <div class="form-wrapper">
+		      <div th:if="${param.error}" style="color: red;">
+			     Tài khoản hoặc mật khẩu không đúng!
+			  </div>
+		      
+		        <h2>Đăng nhập</h2>
+		        <div class="social-buttons">
+		          <button><i class="fab fa-facebook-f"></i></button>
+		          <button><i class="fab fa-google"></i></button>
+		        </div>
+		        <form th:action="@{/login}" method="post">
+				  <label>Tài khoản</label>
+				  <input type="text" name="username" placeholder="Tài khoản" required />
+				
+				  <label>Mật khẩu</label>
+				  <input type="password" name="password" placeholder="Mật khẩu" required />
+				
+				  <div class="options">
+				    <a th:href="@{/forgotPw}">Quên mật khẩu?</a>
+				  </div>
+				
+				  <button type="submit" class="btn-login">Đăng nhập</button>
+				</form>
+
+		      </div>
+		    </div>
+		
+		    <div class="welcome-section">
+		      <div class="welcome-text">
+		        <h1>Chào mừng trở lại!</h1>
+		        <p>Bạn chưa có tài khoản?</p>
+		        <a  th:href="@{/register}"><button class="btn-signup">Đăng ký</button></a>
+		      </div>
+		    </div>
+		  </div>
+	</main>
+</body>
+</html>

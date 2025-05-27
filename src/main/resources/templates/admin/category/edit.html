@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/dashboard :: dynamic(~{::content})}">
+<body th:fragment="content">
+    <form th:action="@{'/admin/categories/edit/' + ${catid.id}}" 
+          th:object="${catid}" method="post">
+        <div>
+            <label class="m-2 fs-5 text-muted fw-bold">Tên danh mục:</label>
+            <input class="m-2 p-1" type="text" th:field="*{name}" />
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Cập nhật</button>
+            <button class="btn btn-warning"><a th:href="@{/admin/categories}" style="text-decoration: none">Quay lại</a></button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+	<main>
+	<div class="favorite-container">
+        <h2>Sản Phẩm Yêu Thích</h2>
+        <div th:each="product : ${favoriteProducts}" class="favorite-item">
+            <div class="product-name" th:text="${product.name}"></div>
+            <div class="product-price" th:text="${product.price} + ' VNĐ'"></div>
+            <a th:href="@{/product/{id}(id=${product.id})}" class="view-button">Xem chi tiết</a>
+            <button class="remove-button">Xóa khỏi yêu thích</button>
+        </div>
+    </div>
+	</main>
+</body>
+</html>

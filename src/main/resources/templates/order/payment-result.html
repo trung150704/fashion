@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/index :: dynamic(~{::main})}">
+<main ng-app="myApp" ng-controller="orderCtrl">
+  <div style="text-align: center; margin-top: 40px;">
+    <h2 th:if="${isSuccess}" style="color: green;">Thanh toán thành công!</h2>
+    <h2 th:if="${!isSuccess}" style="color: red;">Thanh toán thất bại hoặc bị hủy!</h2>
+    
+    <div th:if="${isSuccess}">
+      <p>Đang xử lý đơn hàng...</p>
+    </div>
+  </div>
+</main>
+</html>

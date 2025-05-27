@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{admin/dashboard :: dynamic(~{::content})}">
+<body  th:fragment="content">
+	<div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
+	
+    <h1>Danh sách đơn hàng</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Tên đăng nhập</th>
+                <th>Ngày đặt</th>
+                <th>Trạng thái</th>
+                <th>Tổng tiền</th>
+                <th>Địa chỉ</th>
+                <th>Phương thức thành toán</th>
+                <th>Tên người nhận</th>
+                <th>Số điện thoại người nhận</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="o : ${orders}">
+            	<td th:text="${o.id}"></td>
+                <td>
+				    <span th:if="${o.user != null}" th:text="${o.user.username}"></span>
+				    <span th:if="${o.user == null}" class="text-danger fst-italic">Không có tài khoản</span>
+				</td>
+                <td th:text="${#temporals.format(o.order_date, 'dd-MM-yyyy HH:mm')}"></td>
+                <td class="list-group-item">
+				  <span th:switch="${o.status}">
+				    <span th:case="'delivered'" class="badge bg-success rounded-pill px-3 py-2">Đã giao</span>
+				    <span th:case="'cancel'" class="badge bg-danger rounded-pill px-3 py-2">Đã hủy</span>
+				    <span th:case="'pending'" class="badge bg-warning text-dark rounded-pill px-3 py-2">Chờ xử lý</span>
+				    <span th:case="'paid'" class="badge bg-primary text-dark rounded-pill px-3 py-2">Đã thanh toán</span>
+				    <span th:case="*" class="badge bg-secondary rounded-pill px-3 py-2">Không xác định</span>
+				  </span>
+				</td>
+                <td th:text="${#numbers.formatDecimal(o.total_price, 1, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${o.address}"></td>
+                <td th:text="${o.payment_method}"></td>
+                <td th:text="${o.recipient_name}"></td>
+                <td th:text="${o.recipient_phone}"></td>
+                <td>
+					<a th:href="@{/admin/orders/edit/{id}(id=${o.id})}" class="btn btn-sm btn-primary me-2">
+					    <i class="bi bi-pen"></i> Sửa
+					</a>
+					
+					<a th:href="@{/admin/orders/delete/{id}(id=${o.id})}" 
+					   class="btn btn-sm btn-danger" 
+					   onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');">
+					    <i class="bi bi-trash"></i> Xóa
+					</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

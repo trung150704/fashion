@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/dashboard :: dynamic(~{::content})}">
+<body th:fragment="content">
+<div class="container mt-4">
+
+    <h2 class="mb-4">📊 Thống kê doanh thu</h2>
+
+    <!-- BẢNG DOANH THU THEO THÁNG -->
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">
+            Doanh thu theo tháng
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tháng</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${mrevenueData}">
+                        <td th:text="${item[0]}"></td>
+                        <td th:text="${#numbers.formatDecimal(item[1], 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- BẢNG DOANH THU THEO NGÀY -->
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            Doanh thu theo ngày
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${drevenueData}">
+                        <td th:text="${item[0]}"></td>
+                        <td th:text="${#numbers.formatDecimal(item[1], 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

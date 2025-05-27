@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+	<main>
+
+<head>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .blog-header {
+      background: #28a745;
+      color: #fff;
+      padding: 4rem 0;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .blog-header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .blog-header p {
+      font-size: 1.25rem;
+      font-weight: 300;
+      margin: 0;
+    }
+
+    .post-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #28a745;
+    }
+
+    .post-meta {
+      font-size: 0.875rem;
+      color: #6c757d;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-content p {
+      margin-bottom: 1.3rem;
+      font-size: 1.125rem;
+    }
+
+    .post-content blockquote {
+      border-left: 4px solid #28a745;
+      padding-left: 1rem;
+      font-style: italic;
+      color: #495057;
+      margin: 2rem 0;
+      background: #e9f7ef;
+      border-radius: 4px;
+    }
+
+    .post-image {
+      margin: 2rem 0;
+      border-radius: 8px;
+      width: 100%;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .post-image:hover {
+      transform: scale(1.02);
+    }
+
+    .sidebar {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      margin-top: 2rem;
+      position: sticky;
+      top: 80px;
+    }
+
+    .sidebar h4 {
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid #28a745;
+      padding-bottom: 0.25rem;
+      color: #28a745;
+      letter-spacing: 0.7px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #495057;
+      font-weight: 500;
+    }
+
+    .sidebar ul li a:hover {
+      color: #28a745;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: #28a745;
+      color: white;
+      margin-top: 4rem;
+      font-size: 1rem;
+      letter-spacing: 0.9px;
+    }
+
+    @media (max-width: 767.98px) {
+      .sidebar {
+        position: static;
+        margin-top: 3rem;
+      }
+    }
+  </style>
+</head>
+
+
+  <main class="container my-5">
+    <div class="row">
+      <article class="col-lg-8">
+        <section class="mb-5">
+          <h2 class="post-title">Sự thanh lịch vượt thời gian của Áo dài</h2>
+          <div class="post-meta">Bởi Nguyễn Thị Mai | Ngày 15 tháng 7 năm 2024 | Thời trang truyền thống</div>
+          <img src="https://product.hstatic.net/200000000133/product/24aade029h_-_24aqde069t.2_40475751f51c4210a44295af8faa9fd4_master.jpg"
+            alt="Ao Dai" class="post-image" />
+          <div class="post-content">
+            <p>TÁo dài là trang phục truyền thống của Việt Nam tượng trưng cho sự duyên dáng và thanh lịch. Với áo dài và quần bó, nó tôn lên vẻ đẹp nữ tính nhưng vẫn thoải mái và dễ di chuyển.</p>
+            <p>Trang phục mang tính biểu tượng này thường được mặc trong những dịp đặc biệt, lễ hội và đám cưới, phản ánh di sản văn hóa phong phú của Việt Nam. Áo dài có nhiều màu sắc và kiểu dáng khác nhau, mỗi kiểu đều kể một câu chuyện độc đáo.</p>
+            <blockquote>
+              “Áo dài không chỉ là một chiếc váy; đó là một bản sắc văn hóa.” – Không rõ
+            </blockquote>
+            <p>Khi thời trang ngày càng phát triển, Áo dài vẫn tiếp tục truyền cảm hứng cho các nhà thiết kế hiện đại, kết hợp các yếu tố truyền thống với phong cách đương đại.</p>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <h2 class="post-title">Thời trang đường phố tại Thành phố Hồ Chí Minh</h2>
+          <div class="post-meta">Bởi Trần Văn An | Ngày 3 tháng 8 năm 2024 | Phong cách đô thị</div>
+          <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
+            alt="Street Fashion" class="post-image" />
+          <div class="post-content">
+            <p>HThành phố Hồ Chí Minh là trung tâm thời trang sôi động, nơi phong cách đường phố phản ánh nền văn hóa năng động và tinh thần trẻ trung của người dân. Từ trang phục thường ngày đến trang phục sang trọng, đường phố là sàn diễn để thể hiện bản thân.</p>
+            <p>Các nhà thiết kế và cửa hàng thời trang địa phương đang ngày càng được ưa chuộng, cung cấp những sản phẩm độc đáo kết hợp các yếu tố truyền thống của Việt Nam với xu hướng hiện đại. Bối cảnh thời trang của thành phố là nơi giao thoa của sự sáng tạo và đổi mới.</p>
+            <blockquote>
+              “Thời trang là cách thể hiện con người bạn mà không cần phải nói ra.” – Rachel Zoe
+            </blockquote>
+            <p>Khi thời trang đường phố tiếp tục phát triển, nó thể hiện cá tính và sự sáng tạo của giới trẻ Việt Nam.</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="post-title">Sự trỗi dậy của thời trang bền vững tại Việt Nam</h2>
+          <div class="post-meta">Lê Thị Hoa | Ngày 1 tháng 9 năm 2024 | Phát triển bền vững</div>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZZtfw342L5za3Rhgfk6T2OvHix52UqFymmPTp3XzRZRN8mTmw8VZz93fyw2_GbA2kuaY&usqp=CAU"
+            alt="Sustainable Fashion" class="post-image" />
+          <div class="post-content">
+            <p>Khi nhận thức về các vấn đề môi trường ngày càng tăng, thời trang bền vững ngày càng trở nên quan trọng ở Việt Nam. Các nhà thiết kế đang tập trung vào các vật liệu thân thiện với môi trường và các hoạt động sản xuất có đạo đức để tạo ra trang phục vừa thời trang vừa có trách nhiệm.</p>
+            <p>Người tiêu dùng cũng đang ngày càng có ý thức hơn về lựa chọn thời trang của mình, lựa chọn các thương hiệu ưu tiên tính bền vững. Sự thay đổi này đang mở đường cho một ngành công nghiệp thời trang có trách nhiệm hơn tại Việt Nam.</p>
+            <blockquote>
+              “Thời trang bền vững không phải là một xu hướng; đó là một phong trào.” – Không rõ
+            </blockquote>
+            <p>Bằng cách áp dụng các hoạt động bền vững, Việt Nam có thể dẫn đầu trong việc tạo ra một ngành công nghiệp thời trang tôn trọng cả con người và hành tinh.</p>
+          </div>
+        </section>
+      </article>
+
+      <aside class="col-lg-4">
+        <div class="sidebar">
+          <h4>Về tôi</h4>
+          <p>Xin chào, tôi là một người đam mê thời trang và blogger đam mê khám phá văn hóa và phong cách Việt Nam. Hãy tham gia cùng tôi khi tôi chia sẻ những hiểu biết sâu sắc về xu hướng thời trang truyền thống và hiện đại tại Việt Nam!</p>
+        </div>
+
+        <div class="sidebar">
+          <h4>Bài viết phổ biến</h4>
+          <ul>
+            <li><a href="#">Top 10 nhà thiết kế thời trang Việt Nam đáng chú ý</a></li>
+            <li><a href="#">Cách phối áo dài cho những dịp hiện đại</a></li>
+            <li><a href="#">Ảnh hưởng của văn hóa Việt Nam đến thời trang</a></li>
+            <li><a href="#">Những sự kiện thời trang tại Việt Nam bạn không nên bỏ lỡ</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar">
+          <h4>Đặt mua</h4>
+          <form>
+            <div class="mb-3">
+              <label for="emailInput" class="form-label">Địa chỉ email</label>
+              <input type="email" class="form-control" id="emailInput" placeholder="abc@gmail.com" />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Đặt mua</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+	</main>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/dashboard :: dynamic(~{::content})}">
+<body th:fragment="content">
+    <form th:action="@{/admin/categories/add}" 
+          th:object="${catid}" method="post">
+        <div>
+            <label class="m-2 fs-5 text-muted fw-bold">Tên danh mục:</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nhập tên danh mục" required />
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Thêm</button>
+            <button class="btn btn-warning"><a th:href="@{/admin/categories}" style="text-decoration: none">Quay lại</a></button>
+        </div>
+    </form>
+</body>
+</html>

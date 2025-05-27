@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/index :: dynamic(~{::main})}">
+<main>
+	<h1>Quét mã QR để thanh toán</h1>
+	<!-- style="width: 300px; height: 300px;"  -->
+	<div style="text-align: center;">
+		<img class="qr_img" alt="Mã QR">
+		<p>Vui lòng quét mã QR để hoàn tất thanh toán.</p>
+	</div>
+	<script>
+window.onload = function () {
+    const qr_img = document.querySelector(".qr_img");
+    const qrUrl = sessionStorage.getItem("qrUrl");
+    const orderData = JSON.parse(sessionStorage.getItem("qrOrder"));
+    const paidContent = sessionStorage.getItem("paidContent");
+    const paidPrice = orderData ? orderData.cart.reduce((total, item) => total + item.price * item.quantity, 0) + (orderData?.shippingFee || 0) : 0;
+
+    if (qr_img && qrUrl) {
+        qr_img.src = qrUrl;
+    }
+
+    setTimeout(() => {
+        const intervalId = setInterval(() => {
+            fetch("https://script.google.com/macros/s/AKfycbyEdl0IILtOCmHIoN0elik2K5360NmiWXrQuBL38-KqUw4vQRiyhDbKV_mFbOl0EwLR/exec")
+                .then(res => res.json())
+                .then(data => {
+                    if (!data || !data.data || !data.data.length) return;
+                    const lastPaid = data.data[data.data.length - 1];
+                    const lastPrice = parseFloat(lastPaid["Giá trị"]);
+                    const lastContent = lastPaid["Mô tả"];
+
+                    if (lastPrice >= paidPrice && lastContent.includes(paidContent)) {
+                        clearInterval(intervalId);
+                        alert("✅ Đã nhận thanh toán!");
+
+                        fetch("/order", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(orderData)
+                        })
+                        .then(res => res.json())
+                        .then(result => {
+                            alert(result.message);
+                            sessionStorage.removeItem("qrOrder");
+                            sessionStorage.removeItem("qrUrl");
+                            sessionStorage.removeItem("paidContent");
+                            window.location.href = `/order/confirmation/${result.orderId}`;
+                        });
+                    } else {
+                    	console.log("📌 Checking payment...");
+                    	console.log("Expected Content:", paidContent);
+                    	console.log("Expected Price:", paidPrice);
+                    	console.log("Last Paid Content:", lastContent);
+                    	console.log("Last Paid Price:", lastPrice);
+                        console.log("⛔ Chưa phát hiện thanh toán");
+                        console.log("✅ Calculated Paid Price:", paidPrice);
+                        console.log("🧾 Shipping Fee:", orderData?.shippingFee);
+                        console.log("🛒 Cart Total:", orderData.cart.reduce((total, item) => total + item.price * item.quantity, 0));
+                    }
+                });
+        }, 1000);
+    }, 20000); // delay 10s để Google Sheet cập nhật
+};
+</script>
+</main>
+</html>

@@ -1,0 +1,166 @@
+.login-container {
+  max-width: 900px;      /* tối đa 900px trên desktop */
+  width: 90vw;           /* trên điện thoại co lại 90% chiều ngang màn hình */
+  height: auto;          /* chiều cao tự động theo nội dung */
+  min-height: 500px;     /* tối thiểu chiều cao để không quá thấp */
+  display: flex;
+  flex-wrap: wrap;       /* cho phép xuống dòng trên màn nhỏ */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin: 0 auto;        /* căn giữa */
+}
+
+
+.form-section {
+	flex: 1 1 400px;;
+	padding: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.form-wrapper {
+	width: 100%;
+	max-width: 350px;
+}
+
+.form-wrapper h2 {
+	font-size: 28px;
+	font-weight: 600;
+	margin-bottom: 25px;
+}
+
+.social-buttons {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 25px;
+}
+
+.social-buttons button {
+	background: #e4e4e4;
+	border: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	font-size: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.social-buttons button:hover {
+	background: #ccc;
+}
+
+form label {
+	font-weight: 500;
+	font-size: 14px;
+	margin: 10px 0 5px;
+	display: block;
+}
+
+form input {
+	width: 100%;
+	padding: 12px 15px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	margin-bottom: 15px;
+	font-size: 14px;
+	background-color: #fafafa;
+}
+
+.options {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 13px;
+	margin-bottom: 20px;
+}
+
+.options a {
+	color: #b91d73;
+	text-decoration: none;
+}
+
+.btn-login {
+	width: 100%;
+	padding: 12px;
+	border: none;
+	background: linear-gradient(to right, #f953c6, #b91d73);
+	color: white;
+	font-weight: 600;
+	border-radius: 25px;
+	cursor: pointer;
+}
+
+.btn-login:hover {
+	opacity: 0.9;
+}
+
+.btn-login:active {
+	transform: scale(0.97);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-section {
+	flex: 1 1 400px;;
+	background: linear-gradient(to right, #f953c6, #b91d73);
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 40px;
+}
+
+.welcome-text h1 {
+	font-size: 32px;
+	margin-bottom: 10px;
+}
+
+.welcome-text p {
+	margin-bottom: 20px;
+	font-size: 16px;
+}
+
+.btn-signup {
+	padding: 10px 25px;
+	border: 2px solid white;
+	background: transparent;
+	color: white;
+	border-radius: 25px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: 0.3s;
+}
+
+.btn-signup:hover {
+	background: white;
+	color: #b91d73;
+}
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    max-width: 100%;
+    width: 95vw;
+    height: auto;
+  }
+
+  .form-section, .welcome-section {
+    flex: 1 1 100%;
+    padding: 20px;
+  }
+
+  .form-wrapper {
+    max-width: 100%;
+  }
+
+  .welcome-text h1 {
+    font-size: 24px;
+  }
+
+  .welcome-text p {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+	<main>
+		<br>
+		<div class="login-container m-auto mb-5">
+			<div class="form-section">
+				<div class="form-wrapper">
+					<h2>Đổi mật khẩu</h2>
+					<form th:action="@{/reset-password}" method="post">
+					    <input type="hidden" name="token" th:value="${token}" />
+					    <label>Mật khẩu mới</label>
+					    <input type="password" name="newPassword" required placeholder="Mật khẩu mới" />
+					    <label>Xác nhận mật khẩu</label>
+					    <input type="password" name="confirmPassword" required placeholder="Nhập lại mật khẩu" />
+					    <button type="submit" class="btn-login">Đặt lại mật khẩu</button>
+					    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+					</form>
+				</div>
+			</div>
+
+			<div class="welcome-section">
+				<div class="welcome-text">
+					<h1>Chào mừng bạn!</h1>
+					<p>Xin chào: <span th:text="${#authentication.name}"></span></p>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

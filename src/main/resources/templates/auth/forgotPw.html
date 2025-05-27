@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+	<main>
+		<div class="login-container m-auto">
+			<!-- Form Section (centered only) -->
+			<div class="form-section" style="flex: 1; justify-content: center;">
+				<div class="form-wrapper">
+					<h2>Quên mật khẩu</h2>
+					<p>Nhập email của bạn và chúng tôi sẽ gửi cho bạn liên kết đặt lại.</p>
+					<form th:action="@{/forgotPw}" method="post">
+					    <label>Email</label>
+					    <input type="email" name="email" placeholder="Email" required />
+					    <button type="submit" class="btn-login">Gửi liên kết đặt lại</button>
+					</form>
+					<p th:if="${message}" th:text="${message}" style="color: red;"></p>
+
+					<div style="margin-top: 20px; text-align: center;">
+						<a th:href="@{/login}" style="color: #b91d73;  text-decoration: none; ">Đăng nhập</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

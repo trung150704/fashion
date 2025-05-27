@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+<main class="container py-5">
+    <div class="row">
+        <div class="col-lg-5 mb-4 thankyou-sidebar">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title text-dark">Chi tiết đơn hàng</h4>
+                    <p>Đơn hàng của bạn sẽ được xử lý trong vòng 24h. Chúng tôi sẽ liên hệ khi đơn hàng được chuyển đi.</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Tài khoản đặt hàng:</strong> <span th:text="${order.user != null} ? ${order.user.username} : 'Chưa đăng nhập'"></span></li>
+                        <li class="list-group-item"><strong>Người nhận:</strong> <span th:text="${order.recipient_name}"></span></li>
+                        <li class="list-group-item"><strong>SĐT:</strong> <span th:text="${order.recipient_phone}"></span></li>
+                        <li class="list-group-item"><strong>Địa chỉ:</strong> <span th:text="${order.address}"></span></li>
+                        <li class="list-group-item"><strong>Trạng thái:</strong>
+                            <span th:switch="${order.status}">
+                                <span th:case="'delivered'" class="badge bg-success">Đã giao</span>
+                                <span th:case="'cancel'" class="badge bg-danger">Đã hủy</span>
+                                <span th:case="'pending'" class="badge bg-warning text-dark">Chờ xử lý</span>
+                                <span th:case="'paid'" class="badge bg-primary">Đã thanh toán</span>
+                                <span th:case="*" class="badge bg-secondary">Không xác định</span>
+                            </span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-outline-primary mt-3 w-100">Theo dõi đơn hàng</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Tóm tắt đơn hàng</h4>
+                    <p><strong>Ngày đặt:</strong> <span th:text="${#temporals.format(order.order_date, 'dd MMM yyyy')}"></span></p>
+                    <p><strong>Mã đơn hàng:</strong> <span th:text="${order.id}"></span></p>
+                    <p><strong>Phương thức thanh toán:</strong> <span th:text="${order.payment_method}"></span></p>
+                    <hr>
+                    <div th:each="item : ${order.orderDetails}" class="d-flex align-items-start mb-3">
+                        <img th:src="@{/images/{images}(images=${item.product.image})}" class="img-thumbnail me-3" style="width: 80px; height: 80px;" alt="Product">
+                        <div class="flex-grow-1">
+                            <strong th:text="${item.product.name}"></strong><br>
+                            <small>Size: <span th:text="${item.size.name}"></span></small><br>
+                            <small>Số lượng: <span th:text="${item.quantity}"></span></small><br>
+                            <small>Giá: <span th:text="${#numbers.formatDecimal(item.price, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></small>
+                        </div>
+                        <div class="text-end">
+                            <strong>Thành tiền:</strong>
+                            <p class="text-danger mb-0" th:text="${#numbers.formatDecimal(item.price * item.quantity, 1, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="text-end text-primary">Tổng tiền: <span th:text="${#numbers.formatDecimal(order.total_price, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

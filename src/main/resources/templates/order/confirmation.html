@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+<main>
+    <div class="thankyou-wrapper">
+        <div class="thankyou-header">
+            <h1>Cảm ơn bạn đã mua hàng! 🎉</h1>
+            <p>Đơn hàng sẽ được xử lý trong vòng 24h ngày làm việc. Chúng tôi sẽ liên hệ với bạn khi đơn hàng được chuyển đi.</p>
+        </div>
+
+        <div class="thankyou-container">
+            <div class="thankyou-sidebar">
+                <h3>Địa chỉ nhận hàng</h3>
+                <p><strong>Tên:</strong> <span th:text="${order.recipient_name}"></span></p>
+                <p><strong>Điện thoại:</strong> <span th:text="${order.recipient_phone}"></span></p>
+                <p><strong>Địa chỉ:</strong> <span th:text="${order.address}"></span></p>
+
+                <p><strong>Trạng thái:</strong>
+                    <span th:switch="${order.status}">
+                        <span th:case="'delivered'" class="badge delivered">Đã giao</span>
+                        <span th:case="'cancel'" class="badge canceled">Đã hủy</span>
+                        <span th:case="'pending'" class="badge pending">Chờ xử lý</span>
+                        <span th:case="'paid'" class="badge paid">Đã thanh toán</span>
+                        <span th:case="*" class="badge unknown">Không xác định</span>
+                    </span>
+                </p>
+
+                <a th:href="@{/orders/track/{id}(id=${order.id})}" class="track-button">Theo dõi đơn hàng</a>
+            </div>
+
+            <div class="thankyou-summary">
+                <h3>Tóm tắt đơn hàng</h3>
+                <p><strong>Ngày đặt:</strong> <span th:text="${#temporals.format(order.order_date, 'dd MMM yyyy')}"></span></p>
+                <p><strong>Mã đơn hàng:</strong> <span th:text="${order.id}"></span></p>
+                <p><strong>Thanh toán:</strong> <span th:text="${order.payment_method}"></span></p>
+
+                <div th:each="item : ${order.orderDetails}" class="order-item">
+                    <div class="item-container">
+                        <img th:src="@{/images/{images}(images=${item.product.image})}" alt="Product">
+                        <div>
+                            <div th:text="${item.product.name}"></div>
+                            <small>Size: <span th:text="${item.size.name}"></span></small><br>
+                            <small>Số lượng: <span th:text="${item.quantity}"></span></small><br>
+                            <small>Giá: <span th:text="${#numbers.formatDecimal(item.price, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></small>
+                        </div>
+                        <div class="item-price">
+                            <p><strong>Thành tiền:</strong>
+                                <span th:text="${#numbers.formatDecimal(item.price * item.quantity, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="total-price">Tổng cộng: <span th:text="${#numbers.formatDecimal(order.total_price, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></h3>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

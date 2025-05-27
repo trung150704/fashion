@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/index :: dynamic(~{::main})}">
+<body>
+    <main>
+    <!-- Carousel Banner -->
+    <div id="myCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/images/banner1.webp" class="d-block w-100" alt="Ảnh 1">
+            </div>
+            <div class="carousel-item">
+                <img src="/images/banner2.webp" class="d-block w-100" alt="Ảnh 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/images/banner3.webp" class="d-block w-100" alt="Ảnh 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- Sản phẩm nổi bật -->
+    <div class="col-12">
+       <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+			<div class="col">
+				<img src="/images/base1.webp" class="img-fluid w-100" alt="Base 1">
+			</div>
+			<div class="col">
+				<img src="/images/base2.webp" class="img-fluid w-100" alt="Base 2">
+			</div>
+			<div class="col">
+				<img src="/images/base3.webp" class="img-fluid w-100" alt="Base 3">
+			</div>
+		</div>
+
+
+        <!-- Banner thứ hai -->
+        <div id="myCarousel1" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel1" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#myCarousel1" data-bs-slide-to="1"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/images/banner4.webp" class="d-block w-100" style="max-height: 250px" alt="Ảnh 4">
+                </div>
+                <div class="carousel-item">
+                    <img src="/images/banner5.webp" class="d-block w-100" style="max-height: 250px" alt="Ảnh 5">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel1" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+
+        <!-- Đăng ký nhận tin -->
+        <form action="/subscribe" method="post">
+		    <div class="row mb-4">
+		        <div class="col-md-8 mb-3">
+		            <img src="/images/banner6.webp" class="img-fluid w-100" style="max-height: 500px" alt="Banner 6">
+		        </div>
+		        <div class="col-md-4 mb-3 d-flex flex-column justify-content-center p-3" style="background-color: #f5e1a4;">
+					<h3 class="text-center text-md-start">Đăng ký nhận bản tin</h3>
+					<p class="text-center text-md-start">Đừng bỏ lỡ hàng ngàn sản phẩm hấp dẫn</p>
+					<input type="email" name="email" class="form-control mb-2" placeholder="Nhập email của bạn" required>
+					<button class="btn btn-dark w-100" type="submit">Nhận ưu đãi</button>
+					<p th:if="${message}" th:text="${message}" th:classappend="${success} ? 'text-success' : 'text-danger'" class="mt-2 text-center text-md-start"></p>
+				</div>
+		    </div>
+		</form>
+	<div id="productCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="3000">
+	<h1 class="text-center mb-5">Sản phẩm nổi bật</h1>
+	  <div class="carousel-inner">
+	    <div class="carousel-item" th:each="chunk, stat : ${productChunks}" th:classappend="${stat.index == 0} ? 'active'">
+	      <div class="row">
+	        <div class="col-6 col-sm-6 col-md-3 mb-4" th:each="p : ${chunk}">
+	          <div class="card h-100 shadow-sm">
+	            <a th:href="@{/products/{id}(id=${p.id})}">
+	              <img th:src="@{/images/{image}(image=${p.image})}" class="card-img-top" style="height: 250px; object-fit: contain;" />
+	            </a>
+	            <div class="card-body">
+	              <h5 th:text="${p.name}"></h5>
+	              <p class="fw-bold" th:text="${#numbers.formatDecimal(p.price, 1, 'COMMA', 0, 'POINT')} + ' VNĐ'"></p>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	
+	  <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+	    <span class="carousel-control-prev-icon"></span>
+	  </button>
+	  <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+	    <span class="carousel-control-next-icon"></span>
+	  </button>
+	</div>
+	
+    </div>
+    </main>
+</body>
+</html>

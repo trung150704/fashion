@@ -1,0 +1,127 @@
+.thankyou-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.thankyou-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.thankyou-header h1 {
+    color: #2c3e50;
+    font-size: 2em;
+}
+
+.thankyou-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.thankyou-sidebar,
+.thankyou-summary {
+    flex: 1 1 300px;
+    background-color: #fdfdfd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Badges */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: inline-block;
+    color: white;
+}
+
+.badge.delivered { background-color: #28a745; }
+.badge.canceled { background-color: #dc3545; }
+.badge.pending { background-color: #ffc107; color: #212529; }
+.badge.paid { background-color: #007bff; }
+.badge.unknown { background-color: #6c757d; }
+
+.track-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ff7f50;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+.track-button:hover {
+    background-color: #ff6347;
+}
+
+.order-item {
+    margin-bottom: 15px;
+}
+
+.item-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.item-container img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.item-price {
+    margin-left: auto;
+    text-align: right;
+}
+
+.total-price {
+    text-align: right;
+    margin-top: 20px;
+    color: #e74c3c;
+    font-size: 1.2em;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .thankyou-container {
+        flex-direction: column;
+    }
+
+    .item-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .item-price {
+        margin-left: 0;
+        text-align: left;
+        width: 100%;
+    }
+
+    .thankyou-sidebar,
+    .thankyou-summary {
+        padding: 15px;
+    }
+
+    .track-button {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* Thêm vào cuối file CSS đã có */
+
+@media (min-width: 1024px) {
+    .thankyou-sidebar {
+        position: sticky;
+        top: 100px; /* Cách top 100px khi cuộn */
+        align-self: flex-start;
+        height: fit-content;
+    }
+}
