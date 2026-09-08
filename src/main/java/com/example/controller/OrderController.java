@@ -28,6 +28,8 @@ import com.example.service.OrderService;
 import com.example.service.ProductService;
 import com.example.service.SizeService;
 import com.example.service.UserService;
+import com.example.service.VNpayService;
+import com.example.service.MomoService;
 
 
 @Controller
@@ -50,6 +52,10 @@ public class OrderController {
     
     @Autowired
     CartService cartService;
+    @Autowired
+    VNpayService vnpayService;
+    @Autowired
+    MomoService momoService;
     
     @PostMapping("/order")
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request, Principal principal) {
@@ -85,15 +91,18 @@ public class OrderController {
                 OrderDetail detail = new OrderDetail();
                 detail.setProduct(product);
                 detail.setQuantity(item.getQuantity());
-                detail.setPrice(item.getPrice());
+                if (item.getQuantity() <= 0) {
+                    return ResponseEntity.badRequest().body(Map.of("message", "Số lượng sản phẩm không hợp lệ"));
+                }
+                detail.setPrice(product.getPrice());
                 detail.setSize(size);
                 
                 order.addOrderDetail(detail); // ✅ dùng phương thức 2 chiều
 
-                total += item.getPrice() * item.getQuantity();
+                total += product.getPrice() * item.getQuantity();
             }
 
-            total += request.getShippingFee();
+            total += Math.max(0, request.getShippingFee());
             order.setTotal_price(total);
             if ("Thanh toán bằng Ví điện tử/ QR Code".equals(request.getPaymentMethod()) && request.isPaid()) {
                 order.setStatus("paid"); // hoặc "confirmed"
@@ -106,7 +115,14 @@ public class OrderController {
                 System.out.println("Đã xoá giỏ hàng của user ID: " + user.getId());
             }
             
-            return ResponseEntity.ok().body(Map.of("message", "Đặt hàng thành công", "orderId", order.getId()));
+            String paymentUrl = null;
+            String payment = request.getPaymentMethod() == null ? "" : request.getPaymentMethod().toLowerCase();
+            if (payment.contains("vnpay")) paymentUrl = vnpayService.generatePaymentUrl(order);
+            else if (payment.contains("momo")) paymentUrl = momoService.createPaymentUrl(order);
+            Map<String, Object> result = new java.util.HashMap<>();
+            result.put("message", "Đặt hàng thành công"); result.put("orderId", order.getId());
+            if (paymentUrl != null) result.put("paymentUrl", paymentUrl);
+            return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             e.printStackTrace(); // ⚠️ In ra log lỗi thực tế
             return ResponseEntity.status(500).body("Đặt hàng thất bại: " + e.getMessage());

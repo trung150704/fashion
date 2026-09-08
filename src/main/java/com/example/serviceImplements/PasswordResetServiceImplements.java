@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.PasswordResetToken;
@@ -16,6 +17,9 @@ import com.example.service.PasswordResetService;
 
 @Service
 public class PasswordResetServiceImplements implements PasswordResetService{
+
+	@Value("${app.frontend.base-url}")
+	private String frontendBaseUrl;
 
 	@Autowired
     private PasswordResetTokenRepository tokenRepo;
@@ -53,7 +57,7 @@ public class PasswordResetServiceImplements implements PasswordResetService{
         tokenRepo.save(resetToken);
 
         // Gửi email
-        String link = "http://localhost:8080/reset-password?token=" + token;
+        String link = frontendBaseUrl.replaceAll("/+$", "") + "/reset-password?token=" + token;
         emailService.sendEmail(email, "Đặt lại mật khẩu", "Bấm vào link để đặt lại: " + link);
 
         return "Đã gửi email đặt lại mật khẩu.";

@@ -23,7 +23,7 @@ import com.example.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/cart")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = {"https://lethargy-walmart-letter.ngrok-free.dev", "http://localhost:4200"}, allowCredentials = "true")
 public class CartRestController {
 
     private final SizeRepository sizeRepository;

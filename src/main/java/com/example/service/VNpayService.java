@@ -10,4 +10,6 @@ public interface VNpayService {
 
 	boolean verifyVnpayResponse(Map<String, String> params);
 
+	void markPaymentResult(Map<String, String> params);
+
 }

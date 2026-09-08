@@ -1,5 +1,16 @@
 var app = angular.module('shopApp', []);
 
+// Thông báo thống nhất cho toàn bộ thao tác; giữ fallback nếu CDN chưa tải.
+function showNotice(message, type) {
+    if (window.Swal) {
+        Swal.fire({ toast: true, position: 'top-end', icon: type || 'info', title: message,
+            showConfirmButton: false, timer: 2600, timerProgressBar: true });
+    } else {
+        console.info(message);
+    }
+}
+window.alert = function(message) { showNotice(message, 'info'); };
+
 app.controller('CartController', function($scope, $http) {
 	$scope.cart = [];
 	$scope.selectedSize = null;
@@ -205,11 +216,11 @@ app.controller('CartController', function($scope, $http) {
 	            const lastPrice = parseFloat(lastPaid["Giá trị"]);
 	            const lastContent = lastPaid["Mô tả"];
 				
-				const expectedContent = paidContent.replace(/[^A-Za-z0-9]/g, "");
+				const expectedContent = content.replace(/[^A-Za-z0-9]/g, "");
 
 				console.log("📌 Checking payment...");
 				console.log("Expected Content:", expectedContent);
-				console.log("Expected Price:", paidPrice);
+				console.log("Expected Price:", price);
 				console.log("Last Paid Content:", lastContent);
 				console.log("Last Paid Price:", lastPrice);
 	            if (lastPrice >= price && lastContent.includes(expectedContent)) {
@@ -302,6 +313,10 @@ app.controller('CartController', function($scope, $http) {
 			.then(res => {
 				alert(res.data.message); // ✅ Lấy message từ JSON
 				const orderId = res.data.orderId;
+				if (res.data.paymentUrl) {
+					window.location.href = res.data.paymentUrl;
+					return;
+				}
 				$scope.cart = [];
 				if (!$scope.userLoggedIn) {
 					// Xóa giỏ hàng local

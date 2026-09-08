@@ -1,115 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{layout/index :: dynamic(~{::main})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/index :: dynamic(~{::main})}">
 <body>
-    <main>
-    <!-- Carousel Banner -->
-    <div id="myCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"></button>
+<main class="home-page">
+    <section class="home-hero"><img src="/images/banner1.webp" alt="Bộ sưu tập thời trang đường phố mới"
+                                    class="hero-image">
+    </section>
+    <section class="mini-hero">
+        <div class="mini-hero-content">
+            <h2 class="title">Mặc chất. <span>Sống thật.</span></h2>
+            <p class="subtitle">Thiết yếu cho nhịp sống thành thị.</p>
+            <a href="/products" class="btn-discover">
+                Khám phá ngay <i class="bi bi-arrow-right ms-1"></i>
+            </a>
         </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/images/banner1.webp" class="d-block w-100" alt="Ảnh 1">
-            </div>
-            <div class="carousel-item">
-                <img src="/images/banner2.webp" class="d-block w-100" alt="Ảnh 2">
-            </div>
-            <div class="carousel-item">
-                <img src="/images/banner3.webp" class="d-block w-100" alt="Ảnh 3">
-            </div>
+    </section>
+    <section class="trust-strip"><span><i class="bi bi-truck"></i> Miễn phí giao hàng từ 499.000đ</span><span><i
+            class="bi bi-arrow-repeat"></i> Đổi kích cỡ trong 30 ngày</span><span><i class="bi bi-shield-check"></i> Thanh toán an toàn</span>
+    </section>
+    <section class="section-block">
+        <div class="section-heading">
+            <div><p class="eyebrow">DÀNH RIÊNG CHO BẠN</p>
+                <h2>Hàng mới về</h2></div>
+            <a href="/products" class="text-link">Xem tất cả <i class="bi bi-arrow-up-right"></i></a></div>
+        <div class="product-grid">
+            <article class="shop-card" th:each="p, stat : ${productChunks[0]}"><a
+                    th:href="@{/products/{id}(id=${p.id})}" class="product-visual"><span class="product-badge"
+                                                                                         th:if="${stat.index < 2}">MỚI</span>
+                <button class="quick-view" type="button"
+                        onclick="event.preventDefault(); alert('Tính năng xem nhanh đang được cập nhật');">Xem nhanh
+                </button>
+                <img th:src="@{/images/{image}(image=${p.image})}" th:alt="${p.name}" class="product-main"></a>
+                <div class="shop-card-info">
+                    <div><h3 th:text="${p.name}">Áo thun cơ bản</h3>
+                        <p class="muted">Phi giới tính · Vải cotton cao cấp</p></div>
+                    <strong th:text="${#numbers.formatDecimal(p.price, 1, 'COMMA', 0, 'POINT')} + ' ₫'">490.000
+                        ₫</strong></div>
+            </article>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
-
-    <!-- Sản phẩm nổi bật -->
-    <div class="col-12">
-       <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
-			<div class="col">
-				<img src="/images/base1.webp" class="img-fluid w-100" alt="Base 1">
-			</div>
-			<div class="col">
-				<img src="/images/base2.webp" class="img-fluid w-100" alt="Base 2">
-			</div>
-			<div class="col">
-				<img src="/images/base3.webp" class="img-fluid w-100" alt="Base 3">
-			</div>
-		</div>
-
-
-        <!-- Banner thứ hai -->
-        <div id="myCarousel1" class="carousel slide mb-4" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#myCarousel1" data-bs-slide-to="0" class="active"></button>
-                <button type="button" data-bs-target="#myCarousel1" data-bs-slide-to="1"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="/images/banner4.webp" class="d-block w-100" style="max-height: 250px" alt="Ảnh 4">
-                </div>
-                <div class="carousel-item">
-                    <img src="/images/banner5.webp" class="d-block w-100" style="max-height: 250px" alt="Ảnh 5">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel1" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel1" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+    </section>
+    <section class="section-block">
+        <div class="section-heading">
+            <div><p class="eyebrow">CHỌN PHONG CÁCH CỦA BẠN</p>
+                <h2>Mua theo cảm hứng</h2></div>
         </div>
+        <div class="category-grid"><a href="/products" class="category-tile"><img src="/images/base1.webp"
+                                                                                  alt="Trang phục hằng ngày"><span>Trang phục hằng ngày <i
+                class="bi bi-arrow-up-right"></i></span></a><a href="/products" class="category-tile"><img
+                src="/images/base2.webp" alt="Thiết kế nổi bật"><span>Thiết kế nổi bật <i
+                class="bi bi-arrow-up-right"></i></span></a><a href="/products" class="category-tile"><img
+                src="/images/base3.webp" alt="Phụ kiện"><span>Phụ kiện <i class="bi bi-arrow-up-right"></i></span></a>
+        </div>
+    </section>
 
-        <!-- Đăng ký nhận tin -->
-        <form action="/subscribe" method="post">
-		    <div class="row mb-4">
-		        <div class="col-md-8 mb-3">
-		            <img src="/images/banner6.webp" class="img-fluid w-100" style="max-height: 500px" alt="Banner 6">
-		        </div>
-		        <div class="col-md-4 mb-3 d-flex flex-column justify-content-center p-3" style="background-color: #f5e1a4;">
-					<h3 class="text-center text-md-start">Đăng ký nhận bản tin</h3>
-					<p class="text-center text-md-start">Đừng bỏ lỡ hàng ngàn sản phẩm hấp dẫn</p>
-					<input type="email" name="email" class="form-control mb-2" placeholder="Nhập email của bạn" required>
-					<button class="btn btn-dark w-100" type="submit">Nhận ưu đãi</button>
-					<p th:if="${message}" th:text="${message}" th:classappend="${success} ? 'text-success' : 'text-danger'" class="mt-2 text-center text-md-start"></p>
-				</div>
-		    </div>
-		</form>
-	<div id="productCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="3000">
-	<h1 class="text-center mb-5">Sản phẩm nổi bật</h1>
-	  <div class="carousel-inner">
-	    <div class="carousel-item" th:each="chunk, stat : ${productChunks}" th:classappend="${stat.index == 0} ? 'active'">
-	      <div class="row">
-	        <div class="col-6 col-sm-6 col-md-3 mb-4" th:each="p : ${chunk}">
-	          <div class="card h-100 shadow-sm">
-	            <a th:href="@{/products/{id}(id=${p.id})}">
-	              <img th:src="@{/images/{image}(image=${p.image})}" class="card-img-top" style="height: 250px; object-fit: contain;" />
-	            </a>
-	            <div class="card-body">
-	              <h5 th:text="${p.name}"></h5>
-	              <p class="fw-bold" th:text="${#numbers.formatDecimal(p.price, 1, 'COMMA', 0, 'POINT')} + ' VNĐ'"></p>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	
-	  <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-	    <span class="carousel-control-prev-icon"></span>
-	  </button>
-	  <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-	    <span class="carousel-control-next-icon"></span>
-	  </button>
-	</div>
-	
-    </div>
-    </main>
+    <section class="section-block">
+        <div class="section-heading">
+            <div><p class="eyebrow">KHÁCH HÀNG YÊU THÍCH</p>
+                <h2>Năng lượng tích cực.</h2></div>
+        </div>
+        <div class="review-grid">
+            <blockquote>“Chất vải đẹp, form lên cực kỳ vừa vặn. Mình mặc đi làm lẫn đi chơi đều hợp.”<cite>— Minh Anh ·
+                Khách hàng đã mua</cite></blockquote>
+            <blockquote>“Đóng gói chỉn chu, giao hàng nhanh. Mình sẽ quay lại săn bộ sưu tập mới.”<cite>— Quốc Bảo ·
+                Khách hàng đã mua</cite></blockquote>
+            <div class="rating-card"><strong>4,9</strong>
+                <div class="stars">★★★★★</div>
+                <p>Từ hơn 2.000 đánh giá</p><a href="/products" class="text-link">Xem sản phẩm bán chạy</a></div>
+        </div>
+    </section>
+    <section class="newsletter"><p class="eyebrow">ĐĂNG KÝ NHẬN TIN</p>
+        <h2>Ưu đãi 10% cho lần đầu.</h2>
+        <p>Nhận thông tin bộ sưu tập mới và ưu đãi dành riêng cho bạn.</p>
+        <form action="/subscribe" method="post"><input type="email" name="email" placeholder="Nhập email của bạn"
+                                                       required>
+            <button class="btn btn-dark rounded-pill px-4">Đăng ký</button>
+        </form>
+    </section>
+    <nav class="mobile-bottom-bar"><a href="/"><i class="bi bi-house"></i><span>Trang chủ</span></a><a href="/products"><i
+            class="bi bi-grid"></i><span>Sản phẩm</span></a><a href="/favorite"><i class="bi bi-heart"></i><span>Yêu thích</span></a><a
+            href="/cart"><i class="bi bi-bag"></i><span>Giỏ hàng</span></a></nav>
+</main>
 </body>
 </html>

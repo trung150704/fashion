@@ -1,13 +1,13 @@
-<header class="border-bottom sticky-top bg-light ">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light container  d-flex justify-content-center">
-        <a class="navbar-brand fs-4 fw-bold" th:href="@{/}">T.T Fashion</a>
+<header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg container">
+        <a class="navbar-brand brand-mark" th:href="@{/}"><span>T.T</span> Fashion</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-            aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav main-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Sản phẩm</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Danh mục</a>
@@ -22,48 +22,56 @@
             </ul>
 
             <form th:action="@{/products/search}" method="get" class="d-flex me-2 mt-2">
-                <input class="form-control" name="keyword" placeholder="Tìm sản phẩm..." />
+                <input class="form-control" name="keyword" placeholder="Tìm sản phẩm..."/>
             </form>
 
-           <div class="d-flex align-items-center gap-3">
-    <!-- Icon Yêu thích -->
-    <a th:href="@{/favorite}" class="text-dark fs-5" style="text-decoration: none;">
-        <i class="bi bi-heart-fill"></i>
-    </a>
+            <div class="header-actions d-flex align-items-center gap-3 ">
+                <!-- Icon Yêu thích -->
+                <a th:href="@{/favorite}" class="text-dark fs-5" style="text-decoration: none;">
+                    <i class="bi bi-heart-fill"></i>
+                </a>
 
-    <!-- Icon Giỏ hàng -->
-    <a th:href="@{/cart}" class="text-dark position-relative fs-5" style="text-decoration: none;">
-        <i class="bi bi-cart-fill"></i>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
-    </a>
+                <!-- Icon Giỏ hàng -->
+                <a th:href="@{/cart}" class="text-dark position-relative fs-5" style="text-decoration: none;">
+                    <i class="bi bi-cart-fill"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          id="cart-count">0</span>
+                </a>
 
-    <!-- Khi chưa đăng nhập -->
-    <div sec:authorize="!isAuthenticated()"> 
-        <a th:href="@{/login}" class="text-dark fs-5" style="text-decoration: none;">
-            <i class="bi bi-person-fill"></i>
-        </a>
-    </div>
+                <!-- Khi chưa đăng nhập -->
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}" class="text-dark fs-5" style="text-decoration: none;">
+                        <i class="bi bi-person-fill"></i>
+                    </a>
+                </div>
 
-    <!-- Khi đã đăng nhập -->
-    <div sec:authorize="isAuthenticated()" class="dropdown">
-        <a class="dropdown-toggle text-dark fs-6" href="#" data-bs-toggle="dropdown" style="text-decoration: none;">
-            <span th:text="${#authentication.name}"></span>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" th:href="@{/change-password}">Chỉnh sửa tài khoản</a></li>
-            <li><a class="dropdown-item" th:href="@{/order-list}">Đơn hàng đã mua</a></li>
-            <li>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="dropdown-item">Đăng xuất</button>
-                </form>
-            </li>
-            <li sec:authorize="hasRole('ADMIN')">
-                <a class="dropdown-item" th:href="@{/admin/dashboard}">Trang quản lý</a>
-            </li>
-        </ul>
-    </div>
-</div>
+                <!-- Khi đã đăng nhập -->
+                <div sec:authorize="isAuthenticated()" class="dropdown">
+                    <a class="dropdown-toggle text-dark fs-6" href="#" data-bs-toggle="dropdown"
+                       style="text-decoration: none;">
+                        <span th:text="${#authentication.name}"></span>
+                    </a>
 
+                    <!-- Thêm dropdown-menu-end để menu căn lề phải, không bị tràn màn hình -->
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" th:href="@{/change-password}">Tài khoản</a></li>
+                        <li><a class="dropdown-item" th:href="@{/order-list}">Đơn hàng đã mua</a></li>
+                        <li>
+                            <!-- Thẻ <a> giao diện cho đăng xuất -->
+                            <a class="dropdown-item" href="#"
+                               onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+                                Đăng xuất
+                            </a>
+                        </li>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="dropdown-item" th:href="@{/admin/dashboard}">Trang quản lý</a>
+                        </li>
+                    </ul>
+
+                    <!-- Form ẩn đặt bên ngoài ul để giữ cấu trúc dropdown menu sạch sẽ -->
+                    <form id="logoutForm" th:action="@{/logout}" method="post" class="d-none"></form>
+                </div>
+            </div>
         </div>
     </nav>
 </header>
