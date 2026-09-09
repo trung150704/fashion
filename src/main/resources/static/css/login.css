@@ -79,7 +79,7 @@ form input {
 }
 
 .options a {
-	color: #b91d73;
+	color: #a1943c;
 	text-decoration: none;
 }
 
@@ -87,7 +87,7 @@ form input {
 	width: 100%;
 	padding: 12px;
 	border: none;
-	background: linear-gradient(to right, #f953c6, #b91d73);
+	background: linear-gradient(to right, #ddd26c, #83702b);
 	color: white;
 	font-weight: 600;
 	border-radius: 25px;
@@ -105,7 +105,7 @@ form input {
 
 .welcome-section {
 	flex: 1 1 400px;;
-	background: linear-gradient(to right, #f953c6, #b91d73);
+	background: linear-gradient(to right, #715c12, #aca14e);
 	color: white;
 	display: flex;
 	justify-content: center;
@@ -137,7 +137,7 @@ form input {
 
 .btn-signup:hover {
 	background: white;
-	color: #b91d73;
+	color: #806500;
 }
 @media (max-width: 768px) {
   .login-container {

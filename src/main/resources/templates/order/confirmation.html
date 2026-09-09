@@ -3,6 +3,10 @@
       th:replace="~{layout/index :: dynamic(~{::main})}">
 <body>
 <main>
+    <div th:if="${paymentSuccess}" class="alert alert-success text-center mx-auto mt-4" style="max-width: 900px;">
+        <strong>Thanh toán VNPay thành công!</strong> Đơn hàng của bạn đã được ghi nhận.
+        <br>Mã đơn hàng: <strong th:text="${order.orderCode}"></strong>
+    </div>
     <div class="thankyou-wrapper">
         <div class="thankyou-header">
             <h1>Cảm ơn bạn đã mua hàng! 🎉</h1>
@@ -32,12 +36,12 @@
             <div class="thankyou-summary">
                 <h3>Tóm tắt đơn hàng</h3>
                 <p><strong>Ngày đặt:</strong> <span th:text="${#temporals.format(order.order_date, 'dd MMM yyyy')}"></span></p>
-                <p><strong>Mã đơn hàng:</strong> <span th:text="${order.id}"></span></p>
+                <p><strong>Mã đơn hàng:</strong> <span th:text="${order.orderCode}"></span></p>
                 <p><strong>Thanh toán:</strong> <span th:text="${order.payment_method}"></span></p>
 
                 <div th:each="item : ${order.orderDetails}" class="order-item">
                     <div class="item-container">
-                        <img th:src="@{/images/{images}(images=${item.product.image})}" alt="Product">
+                        <img th:src="${item.product.image}" alt="Product">
                         <div>
                             <div th:text="${item.product.name}"></div>
                             <small>Size: <span th:text="${item.size.name}"></span></small><br>
@@ -51,7 +55,7 @@
                     </div>
                 </div>
                 <hr>
-                <h3 class="total-price">Tổng cộng: <span th:text="${#numbers.formatDecimal(order.total_price, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></h3>
+                <h3 class="total-price fw-bold">Tổng cộng: <span th:text="${#numbers.formatDecimal(order.total_price, 1, 'COMMA', 0, 'POINT')} + ' đ'"></span></h3>
             </div>
         </div>
     </div>

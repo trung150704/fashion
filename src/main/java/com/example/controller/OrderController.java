@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,7 @@ public class OrderController {
                 order.setUser(user); // chỉ set nếu đăng nhập
             }
             order.setOrder_date(LocalDateTime.now());
+            order.setOrderCode(generateOrderCode());
             order.setStatus("pending");
             order.setAddress(request.getAddress());
             order.setPayment_method(request.getPaymentMethod());
@@ -121,6 +123,7 @@ public class OrderController {
             else if (payment.contains("momo")) paymentUrl = momoService.createPaymentUrl(order);
             Map<String, Object> result = new java.util.HashMap<>();
             result.put("message", "Đặt hàng thành công"); result.put("orderId", order.getId());
+            result.put("orderCode", order.getOrderCode());
             if (paymentUrl != null) result.put("paymentUrl", paymentUrl);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
@@ -153,7 +156,9 @@ public class OrderController {
     }
     
     @GetMapping("/order/confirmation/{id}")
-    public String orderConfirmation(@PathVariable("id") Integer orderId, Model model) {
+    public String orderConfirmation(@PathVariable("id") Integer orderId,
+                                    @RequestParam(value = "payment", required = false) String payment,
+                                    Model model) {
         Optional<Order> orderOpt = orderService.findById(orderId);
         if (orderOpt.isEmpty()) {
             return "redirect:/"; // hoặc về trang chính nếu không có đơn
@@ -161,23 +166,29 @@ public class OrderController {
         Order order = orderOpt.get();
         model.addAttribute("pageTitle", "Xác nhận đơn hàng");
         model.addAttribute("order", order);
+        model.addAttribute("paymentSuccess", "success".equalsIgnoreCase(payment));
         return "order/confirmation";
     }
     
     @GetMapping("/order/lookup")
-    public String lookupOrder(@RequestParam(value = "orderId", required = false) Integer orderId, Model model) {
-        if (orderId != null) {
-            Optional<Order> orderOpt = orderService.findById(orderId);
+    public String lookupOrder(@RequestParam(value = "orderCode", required = false) String orderCode,
+                              @RequestParam(value = "phone", required = false) String phone, Model model) {
+        if (orderCode != null && phone != null && !orderCode.isBlank() && !phone.isBlank()) {
+            Optional<Order> orderOpt = orderService.findByOrderCodeAndRecipientPhone(orderCode.trim().toUpperCase(), phone.trim());
             if (orderOpt.isPresent()) {
                 model.addAttribute("order", orderOpt.get());
                 model.addAttribute("notFound", false);
             } else {
                 model.addAttribute("notFound", true);
             }
-            model.addAttribute("searchedId", orderId);
+            model.addAttribute("searchedCode", orderCode);
         }
         model.addAttribute("pageTitle","Tra cứu đơn hàng");
         return "order/lookup"; // Trang tra cứu đơn
+    }
+
+    private String generateOrderCode() {
+        return "FS-" + UUID.randomUUID().toString().replace("-", "").substring(0, 10).toUpperCase();
     }
 
     @GetMapping("/qrcode")

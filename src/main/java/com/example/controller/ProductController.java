@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.entity.Category;
 import com.example.entity.Product;
@@ -38,7 +39,8 @@ public class ProductController {
     public String listProducts(Model model,
                                @RequestParam(defaultValue = "0") int page,
                                @RequestParam(required = false) String keyword,
-                               @RequestParam(required = false) String priceRange) {
+                               @RequestParam(required = false) String priceRange,
+                               @RequestParam(defaultValue = "newest") String sort) {
         BigDecimal min = null, max = null;
         if (priceRange != null && priceRange.contains("-")) {
             String[] parts = priceRange.split("-");
@@ -50,12 +52,19 @@ public class ProductController {
             }
         }
 
-        Page<Product> products = productService.filterProducts(keyword, min, max, page);
+        if (page < 0) page = 0;
+        Sort sorting = switch (sort) {
+            case "priceAsc" -> Sort.by(Sort.Direction.ASC, "price");
+            case "priceDesc" -> Sort.by(Sort.Direction.DESC, "price");
+            default -> Sort.by(Sort.Direction.DESC, "created_at");
+        };
+        Page<Product> products = productService.filterProducts(keyword, min, max, page, sorting);
 
         model.addAttribute("p", products.getContent());
         model.addAttribute("products", products.getContent()); // dùng chung nếu không cần phân biệt
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("sort", sort);
         model.addAttribute("pageTitle", "Danh sách sản phẩm");
 
         return "product/list";

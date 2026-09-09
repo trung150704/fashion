@@ -50,4 +50,9 @@ public class OrderServiceImplements implements OrderService{
     public List<Object[]> getDailyRevenue() {
         return orderRepository.getDailyRevenue();
     }
+
+	@Override
+	public Optional<Order> findByOrderCodeAndRecipientPhone(String orderCode, String recipientPhone) {
+		return orderRepository.findByOrderCodeAndRecipientPhone(orderCode, recipientPhone);
+	}
 }

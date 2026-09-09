@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/index :: dynamic(~{::main})}">
 <body>
-<main class="home-page">
-    <section class="home-hero"><img src="/images/banner1.webp" alt="Bộ sưu tập thời trang đường phố mới"
-                                    class="hero-image">
+<main class="home-page mt-3">
+    <section class="home-hero">
+        <img src="/images/banner1.webp"
+             alt="Bộ sưu tập thời trang đường phố mới" class="hero-image">
     </section>
     <section class="mini-hero">
         <div class="mini-hero-content">
@@ -13,9 +14,6 @@
                 Khám phá ngay <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
-    </section>
-    <section class="trust-strip"><span><i class="bi bi-truck"></i> Miễn phí giao hàng từ 499.000đ</span><span><i
-            class="bi bi-arrow-repeat"></i> Đổi kích cỡ trong 30 ngày</span><span><i class="bi bi-shield-check"></i> Thanh toán an toàn</span>
     </section>
     <section class="section-block">
         <div class="section-heading">
@@ -29,7 +27,7 @@
                 <button class="quick-view" type="button"
                         onclick="event.preventDefault(); alert('Tính năng xem nhanh đang được cập nhật');">Xem nhanh
                 </button>
-                <img th:src="@{/images/{image}(image=${p.image})}" th:alt="${p.name}" class="product-main"></a>
+                <img th:src="${p.image}" th:alt="${p.name}" class="product-main"></a>
                 <div class="shop-card-info">
                     <div><h3 th:text="${p.name}">Áo thun cơ bản</h3>
                         <p class="muted">Phi giới tính · Vải cotton cao cấp</p></div>
@@ -37,6 +35,11 @@
                         ₫</strong></div>
             </article>
         </div>
+    </section>
+    <section class="trust-strip">
+        <span><i class="bi bi-truck"></i> Miễn phí giao hàng từ 499.000đ</span><span><i
+            class="bi bi-arrow-repeat"></i> Đổi kích cỡ trong 30 ngày</span>
+        <span><i class="bi bi-shield-check"></i> Thanh toán an toàn</span>
     </section>
     <section class="section-block">
         <div class="section-heading">

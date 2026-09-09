@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.entity.Product;
 
@@ -20,4 +21,5 @@ public interface ProductService {
 	void deleteById(Integer id);
 	List<Product> searchByName(String keyword);
 	Page<Product> filterProducts(String keyword, BigDecimal min, BigDecimal max, int page);
+	Page<Product> filterProducts(String keyword, BigDecimal min, BigDecimal max, int page, Sort sort);
 }

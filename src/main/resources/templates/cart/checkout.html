@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/index :: dynamic(~{::main})}">
 <main>
   <div class="container my-5">
-    <form class="row g-4" ng-submit="submitOrder()" novalidate>
+    <form class="row g-4" ng-submit="submitOrder()" >
       <!-- Thông tin giao hàng -->
       <div class="col-md-8">
         <div class="card shadow-lg border-0 rounded-4 p-4 mb-4 bg-white">
@@ -100,7 +100,7 @@
 
           <div class="mt-4">
             <button type="submit" class="btn btn-success btn-lg w-100">
-              ✅ Xác nhận đặt hàng
+              Xác nhận đặt hàng
             </button>
           </div>
         </div>

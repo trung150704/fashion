@@ -1,15 +1,29 @@
 var app = angular.module('shopApp', []);
 
 // Thông báo thống nhất cho toàn bộ thao tác; giữ fallback nếu CDN chưa tải.
-function showNotice(message, type) {
-    if (window.Swal) {
-        Swal.fire({ toast: true, position: 'top-end', icon: type || 'info', title: message,
-            showConfirmButton: false, timer: 2600, timerProgressBar: true });
-    } else {
-        console.info(message);
-    }
+function showNotice(message, type = 'info', position = 'top') {
+	if (window.Swal) {
+		Swal.fire({
+			toast: true,
+			position: position,
+			icon: type,
+			title: message,
+			showConfirmButton: false,
+			timer: 2600,
+			timerProgressBar: true,
+			// Thêm custom class nếu muốn chỉnh style riêng
+			customClass: {
+				container: 'toast-below-header'
+			}
+		});
+	} else {
+		console.info(`[${type.toUpperCase()}] ${message}`);
+	}
 }
-window.alert = function(message) { showNotice(message, 'info'); };
+
+window.alert = function(message, type = 'info') {
+	showNotice(message, type, 'top-end');
+};
 
 app.controller('CartController', function($scope, $http) {
 	$scope.cart = [];
@@ -90,7 +104,11 @@ app.controller('CartController', function($scope, $http) {
 
 	$scope.selectSize = function(size) {
 		$scope.selectedSize = size;
-		document.getElementById("selected-size").innerText = "Kích cỡ: " + size;
+		const label = document.getElementById("selected-size-label");
+		if (label) label.innerText = "— " + size;
+		document.querySelectorAll('.size-option').forEach(function(button) {
+			button.classList.toggle('active', button.innerText.trim() === size);
+		});
 	};
 
 	$scope.addToCart = function(productId, productName, price, image) {
@@ -118,7 +136,7 @@ app.controller('CartController', function($scope, $http) {
 			}
 			localStorage.setItem("cart", JSON.stringify($scope.cart));
 			$scope.updateCartCount();
-			alert("Đã thêm vào giỏ hàng (client)");
+			showNotice('Thêm vào giỏ hàng thành công! (client)', 'success', 'top-end');
 		} else {
 			const payload = {
 				productId: item.productId,
@@ -136,7 +154,7 @@ app.controller('CartController', function($scope, $http) {
 					$scope.cart = response.data.map(normalizeCartItem);;
 					$scope.updateCartCount();
 				});
-				alert("Đã thêm vào giỏ hàng (server)");
+				showNotice('Thêm vào giỏ hàng thành công! (server)', 'success', 'top-end');
 			});
 
 		}
@@ -148,7 +166,7 @@ app.controller('CartController', function($scope, $http) {
 			$scope.cart = $scope.cart.filter(i => !(i.productId === productId && i.sizeId === sizeId));
 			localStorage.setItem("cart", JSON.stringify($scope.cart));
 			$scope.updateCartCount();
-			alert("Đã xóa sản phẩm khỏi giỏ hàng (local)");
+			showNotice('Đã xóa sản phẩm khỏi giỏ hàng (local)', 'success', 'top-end');
 		} else {
 			const payload = {
 				productId: productId,
@@ -158,10 +176,10 @@ app.controller('CartController', function($scope, $http) {
 				// Xóa trên giao diện sau khi xóa trên server
 				$scope.cart = $scope.cart.filter(i => !(i.productId === productId && i.sizeId === sizeId));
 				$scope.updateCartCount();
-				alert("Đã xóa sản phẩm khỏi giỏ hàng (server)");
+				showNotice('Đã xóa sản phẩm khỏi giỏ hàng (server)', 'success', 'top-end');
 			}).catch(err => {
 				console.error("Lỗi khi xóa sản phẩm:", err);
-				alert("Không thể xóa sản phẩm. Vui lòng thử lại!");
+				showNotice('Không thể xóa sản phẩm. Vui lòng thử lại!', 'error', 'top-end');
 			});
 		}
 	};
@@ -226,20 +244,21 @@ app.controller('CartController', function($scope, $http) {
 	            if (lastPrice >= price && lastContent.includes(expectedContent)) {
 	                clearInterval(intervalId); // dừng kiểm tra
 
-	                alert("✅ Thanh toán thành công");
+					showNotice('Thanh toán thành công!', 'success', 'top-end');
 
 	                // gọi API tạo đơn hàng
 	                $http.post("/order", orderData)
 	                    .then(res => {
 	                        alert(res.data.message);
 	                        const orderId = res.data.orderId;
+	                        if (res.data.orderCode) sessionStorage.setItem('lastOrderCode', res.data.orderCode);
 	                        $scope.cart = [];
 	                        clearLocalCart();
 	                        window.location.href = `/order/confirmation/${orderId}`;
 	                    })
 	                    .catch(err => {
 	                        console.error("Lỗi khi tạo đơn sau khi thanh toán", err);
-	                        alert("Lỗi khi lưu đơn hàng sau khi thanh toán");
+							showNotice('Lỗi khi lưu đơn hàng sau khi thanh toán!', 'error', 'top-end');
 	                    });
 	            } else {
 	                console.log("⛔ Chưa phát hiện thanh toán");
@@ -266,7 +285,7 @@ app.controller('CartController', function($scope, $http) {
 
 		// ✅ Kiểm tra nếu chưa chọn phương thức
 		if (!paymentMethod) {
-			alert("Vui lòng chọn phương thức thanh toán");
+			showNotice('Vui lòng chọn phương thức thanh toán!', 'warning', 'top-end');
 			return;
 		}
 
@@ -313,6 +332,7 @@ app.controller('CartController', function($scope, $http) {
 			.then(res => {
 				alert(res.data.message); // ✅ Lấy message từ JSON
 				const orderId = res.data.orderId;
+				if (res.data.orderCode) sessionStorage.setItem('lastOrderCode', res.data.orderCode);
 				if (res.data.paymentUrl) {
 					window.location.href = res.data.paymentUrl;
 					return;
@@ -332,7 +352,7 @@ app.controller('CartController', function($scope, $http) {
 				}
 			})
 			.catch(err => {
-				alert("Lỗi khi đặt hàng");
+				showNotice('Lỗi khi đặt hàng!', 'error', 'top-end');
 				console.error(err);
 			});
 	};

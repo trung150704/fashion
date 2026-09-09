@@ -15,4 +15,6 @@ public interface OrderService {
 	
 	List<Object[]> getMonthlyRevenue();
     List<Object[]> getDailyRevenue();
+
+	Optional<Order> findByOrderCodeAndRecipientPhone(String orderCode, String recipientPhone);
 }

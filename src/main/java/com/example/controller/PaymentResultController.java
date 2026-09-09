@@ -27,7 +27,7 @@ public class PaymentResultController {
         if (success) {
             String orderId = momo ? params.get("orderId") : params.get("vnp_TxnRef");
             if (orderId != null && orderId.matches("\\d+")) {
-                return "redirect:/order/confirmation/" + orderId;
+                return "redirect:/order/confirmation/" + orderId + "?payment=success";
             }
         }
 

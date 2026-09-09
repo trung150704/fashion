@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Product;
@@ -73,6 +74,11 @@ public class ProductServiceImplements implements ProductService{
 	public Page<Product> filterProducts(String keyword, BigDecimal min, BigDecimal max, int page) {
 	    Pageable pageable = PageRequest.of(page, 12);
 	    return productRepository.filterProducts(keyword, min, max, pageable);
+	}
+
+	@Override
+	public Page<Product> filterProducts(String keyword, BigDecimal min, BigDecimal max, int page, Sort sort) {
+	    return productRepository.filterProducts(keyword, min, max, PageRequest.of(Math.max(0, page), 12, sort));
 	}
 
 
